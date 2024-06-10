@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315446443827",
+    "project_id": "mindfulness-tracker-8cfa5",
+    "storage_bucket": "mindfulness-tracker-8cfa5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315446443827:android:31669c7d366d22a7abc846",
+        "android_client_info": {
+          "package_name": "com.example.mindfulnesstracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ8rLbBctqPebphnSHl13-Wj8olsAmnZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
