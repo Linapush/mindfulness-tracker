@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Трекер осознанности</string>
-    <string name="day_phrase">Фраза</string>
-    <string name="all_habbits">Привычки</string>
+    <string name="screen_title_list">Привычки</string>
+    <string name="screen_title_add">Добавить привычку</string>
+    <string name="screen_title_progress">прогресс</string>
+    <string name="button_back">Назад</string>
+    <string name="button_add">Добавить</string>
     <string name="mn">пн</string>
     <string name="tu">вт</string>
     <string name="wn">ср</string>
@@ -10,10 +13,24 @@
     <string name="fr">пт</string>
     <string name="st">сб</string>
     <string name="sn">вс</string>
-    <string name="habbit1">Стакан воды с утра натощак</string>
     <string name="today">Сегодня</string>
-    <string name="add_habit">Добавить привычку</string>
-    <string name="my_progress">Мой прогресс</string>
     <string name="reminder">Напоминание</string>
-    <string name="back_button">Назад</string>
+    <string-array name="motd_array">
+        <item>Счастье — не пункт назначения, а способ жизни.</item>
+        <item>Хорошая новость: есть момент здесь и сейчас.</item>
+        <item>Успех — это не конечная цель, а постоянное движение вперед.</item>
+        <item>Возможности не ждут, они создаются самими.</item>
+        <item>Сегодняшние усилия — завтрашний успех.</item>
+        <item>Не бойся перемен, они открывают новые горизонты.</item>
+        <item>Верь в себя — это первый шаг к победе.</item>
+        <item>Не откладывай на завтра то, что можно сделать сегодня.</item>
+        <item>Стремись к лучшему, не останавливайся на достигнутом.</item>
+        <item>Ошибка — это шанс научиться чему-то новому.</item>
+        <item>Ты можешь всё, что решишь сделать.</item>
+        <item>Не сдавайся, даже если путь к успеху кажется трудным.</item>
+        <item>Счастье — это результат твоих мыслей и действий.</item>
+        <item>Каждый день — новая возможность стать лучше.</item>
+        <item>Лучший способ предсказать будущее — создать его самому.</item>
+        <item>Успех приходит к тем, кто не боится рисковать.</item>
+    </string-array>
 </resources>

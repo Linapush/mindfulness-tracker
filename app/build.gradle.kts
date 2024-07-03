@@ -61,6 +61,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     detektPlugins("ru.kode:detekt-rules-compose:1.3.0")
 
     implementation(libs.androidx.core.ktx)

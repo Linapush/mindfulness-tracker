@@ -8,4 +8,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-text.txt
+app/text.txt
