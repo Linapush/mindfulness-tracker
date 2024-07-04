@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import com.example.mindfulnesstracker.ui.HabitNavigation
 import com.example.mindfulnesstracker.ui.theme.MindfulnessTrackerTheme
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -20,7 +19,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//class MainActivity : ComponentActivity() {
+// class MainActivity : ComponentActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
 //        setContent {
@@ -35,24 +34,24 @@ class MainActivity : ComponentActivity() {
 //            }
 //        }
 //    }
-//}
+// }
 //
-//@Composable
-//fun Greeting(
+// @Composable
+// fun Greeting(
 //    name: String,
 //    modifier: Modifier = Modifier,
-//) {
+// ) {
 //    Button(
 //        onClick = {
 //            throw RuntimeException("Test Crash")
 //        },
 //    ) { Text(text = "Crash") }
-//}
+// }
 //
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
+// @Preview(showBackground = true)
+// @Composable
+// fun GreetingPreview() {
 //    MindfulnessTrackerTheme {
 //        Greeting("Android")
 //    }
-//}
+// }

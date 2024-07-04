@@ -8,8 +8,7 @@ import com.example.mindfulnesstracker.ui.components.HabitScaffold
 @Composable
 fun ProgressScreen(habitId: Int) {
     HabitScaffold(
-        screenTitle = stringResource(R.string.screen_title_progress)
+        screenTitle = stringResource(R.string.screen_title_progress),
     ) { paddingValues ->
-
     }
 }

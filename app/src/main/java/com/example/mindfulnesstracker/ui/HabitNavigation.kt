@@ -28,7 +28,7 @@ fun HabitNavigation() {
     val navigator = rememberNavController()
     NavHost(
         navController = navigator,
-        startDestination = SPLASH_SCREEN
+        startDestination = SPLASH_SCREEN,
     ) {
         composable(SPLASH_SCREEN) {
             SplashScreen {
@@ -39,13 +39,13 @@ fun HabitNavigation() {
         }
         composable(LIST_SCREEN) {
             ListScreen(
-                onItemClick = { navigator.navigate("$PROGRESS_SCREEN/$it")},
-                onAddClick = { navigator.navigate(ADD_SCREEN)}
+                onItemClick = { navigator.navigate("$PROGRESS_SCREEN/$it") },
+                onAddClick = { navigator.navigate(ADD_SCREEN) },
             )
         }
         composable(
             "$PROGRESS_SCREEN/{$ARG_HABIT_ID}",
-            listOf(navArgument(ARG_HABIT_ID) { type = NavType.IntType })
+            listOf(navArgument(ARG_HABIT_ID) { type = NavType.IntType }),
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt(ARG_HABIT_ID)
 

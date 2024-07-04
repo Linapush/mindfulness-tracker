@@ -28,19 +28,23 @@ import com.example.mindfulnesstracker.R
 import com.example.mindfulnesstracker.ui.components.HabitScaffold
 import kotlin.random.Random
 
-private val habits = listOf(
-    "Привычка 1",
-    "Привычка 2",
-    "Привычка 3",
-    "Привычка 4",
-    "Привычка 5",
-    "Привычка 6",
-    "Привычка 7",
-    "Привычка 8"
-)
+private val habits =
+    listOf(
+        "Привычка 1",
+        "Привычка 2",
+        "Привычка 3",
+        "Привычка 4",
+        "Привычка 5",
+        "Привычка 6",
+        "Привычка 7",
+        "Привычка 8",
+    )
 
 @Composable
-fun ListScreen(onItemClick: (id: Int) -> Unit, onAddClick: () -> Unit) {
+fun ListScreen(
+    onItemClick: (id: Int) -> Unit,
+    onAddClick: () -> Unit,
+) {
     HabitScaffold(
         screenTitle = stringResource(R.string.screen_title_list),
         showBackButton = false,
@@ -48,14 +52,15 @@ fun ListScreen(onItemClick: (id: Int) -> Unit, onAddClick: () -> Unit) {
             IconButton(onClick = onAddClick) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.button_add)
+                    contentDescription = stringResource(R.string.button_add),
                 )
             }
-        }
+        },
     ) { paddingValues ->
         LazyColumn(
-            contentPadding = paddingValues
-        ) {// количество элементов и вызов кнопки
+            contentPadding = paddingValues,
+        ) {
+            // количество элементов и вызов кнопки
             items(habits.size) { index ->
                 HabitItem(index, onItemClick)
             }
@@ -64,47 +69,56 @@ fun ListScreen(onItemClick: (id: Int) -> Unit, onAddClick: () -> Unit) {
 }
 
 @Composable
-fun HabitItem(habit: Int, onItemClick: (id: Int) -> Unit) {
-    val statuses = remember {
-        listOf(
-            Random.nextBoolean(),
-            Random.nextBoolean(),
-            Random.nextBoolean(),
-            Random.nextBoolean(),
-            Random.nextBoolean(),
-            Random.nextBoolean(),
-            Random.nextBoolean()
-        )
-    }
+fun HabitItem(
+    habit: Int,
+    onItemClick: (id: Int) -> Unit,
+) {
+    val statuses =
+        remember {
+            listOf(
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+                Random.nextBoolean(),
+            )
+        }
 
-    Column( // clicable добавляет возможность нажатия на элемент списка привычек
-        modifier = Modifier
-            .clickable {
-                onItemClick(habit)
-            }
-            .padding(8.dp)
+    Column(
+        // clicable добавляет возможность нажатия на элемент списка привычек
+        modifier =
+            Modifier
+                .clickable {
+                    onItemClick(habit)
+                }
+                .padding(8.dp),
     ) {
         Text(
             text = habits[habit],
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
-        Row {// для каждого статуса в списке
+        Row {
+            // для каждого статуса в списке
             statuses.forEachIndexed { index, status ->
-                val color = if (status) {
-                    Color.Green
-                } else {
-                    if (index == 6) Color.Gray else Color.Red
-                }
+                val color =
+                    if (status) {
+                        Color.Green
+                    } else {
+                        if (index == 6) Color.Gray else Color.Red
+                    }
                 Column(
                     modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .padding(8.dp)
-                            .clip(CircleShape)
-                            .background(color)
+                        modifier =
+                            Modifier
+                                .aspectRatio(1f)
+                                .padding(8.dp)
+                                .clip(CircleShape)
+                                .background(color),
                     )
                     if (index == 6) {
                         Text(

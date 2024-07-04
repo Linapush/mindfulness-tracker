@@ -29,7 +29,7 @@ fun HabitScaffold(
     screenTitle: String? = null,
     showBackButton: Boolean = true,
     actions: @Composable RowScope.() -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     val isDarkTheme = isSystemInDarkTheme()
     // локальные значения для использования внутри дочерних элементов
@@ -48,11 +48,10 @@ fun HabitScaffold(
             topBar = {
                 HabitAppBar(screenTitle, showBackButton, actions, isDarkTheme)
             },
-            content = content
+            content = content,
         )
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +59,7 @@ fun HabitAppBar(
     screenTitle: String?,
     showBackButton: Boolean,
     actions: @Composable RowScope.() -> Unit,
-    isDarkTheme: Boolean
+    isDarkTheme: Boolean,
 ) {
     val backgroundColor = if (isDarkTheme) Color.Black else Color.White
     val contentColor = if (isDarkTheme) Color.White else Color.Black
@@ -78,13 +77,13 @@ fun HabitAppBar(
                                 Icon(
                                     imageVector = Icons.Filled.ArrowBack,
                                     contentDescription = stringResource(R.string.button_add),
-                                    tint = contentColor
+                                    tint = contentColor,
                                 )
                             }
                         }
                     }
                 },
-                actions = actions
+                actions = actions,
             )
         }
     }

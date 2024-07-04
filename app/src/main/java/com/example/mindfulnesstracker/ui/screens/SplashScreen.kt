@@ -48,33 +48,36 @@ fun SplashScreen(nextScreen: () -> Unit) {
                 painter = painterResource(R.drawable.splash_background),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
             ) {
                 Text(
                     text = stringResource(R.string.app_name),
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = 144.dp)
-                        .padding(horizontal = 32.dp),
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopCenter)
+                            .padding(top = 144.dp)
+                            .padding(horizontal = 32.dp),
                     color = Color.White,
                     fontSize = 32.sp,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
                 val strings = stringArrayResource(R.array.motd_array)
                 val text = remember { strings.random() }
                 Text(
                     text = text,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 96.dp)
-                        .padding(horizontal = 32.dp),
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 96.dp)
+                            .padding(horizontal = 32.dp),
                     color = Color.White,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
                 )
             }
         }

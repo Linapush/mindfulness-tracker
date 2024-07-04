@@ -4,7 +4,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("org.jlleitschuh.gradle.ktlint")
-    id("io.gitlab.arturbosch.detekt")
 }
 
 android {
@@ -53,16 +52,11 @@ android {
     }
 }
 
-detekt {
-    config.setFrom("default-detekt-config.yml")
-}
-
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    detektPlugins("ru.kode:detekt-rules-compose:1.3.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

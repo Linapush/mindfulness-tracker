@@ -8,8 +8,7 @@ import com.example.mindfulnesstracker.ui.components.HabitScaffold
 @Composable
 fun AddScreen(onAdded: () -> Unit) {
     HabitScaffold(
-        screenTitle = stringResource(R.string.screen_title_add)
+        screenTitle = stringResource(R.string.screen_title_add),
     ) { paddingValues ->
-
     }
 }
