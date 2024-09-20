@@ -1,19 +1,26 @@
 <resources>
-    <string name="app_name">Трекер осознанности</string>
-    <string name="screen_title_list">Привычки</string>
-    <string name="screen_title_add">Добавить привычку</string>
-    <string name="screen_title_progress">Прогресс</string>
-    <string name="button_back">Назад</string>
-    <string name="button_add">Добавить</string>
-    <string name="mn">пн</string>
-    <string name="tu">вт</string>
-    <string name="wn">ср</string>
-    <string name="th">чт</string>
-    <string name="fr">пт</string>
-    <string name="st">сб</string>
-    <string name="sn">вс</string>
-    <string name="today">Сегодня</string>
-    <string name="reminder">Напоминание</string>
+    <string name="app_name">Mindfulness Tracker</string>
+    <string name="screen_title_list">Habits</string>
+    <string name="screen_title_add">Add habit</string>
+    <string name="screen_title_progress">progress</string>
+    <string name="button_back">back</string>
+    <string name="button_add">add</string>
+    <string name="mn">mn</string>
+    <string name="tu">tu</string>
+    <string name="wn">wn</string>
+    <string name="th">th</string>
+    <string name="fr">fr</string>
+    <string name="st">st</string>
+    <string name="sn">sn</string>
+    <string name="today">today</string>
+    <string name="title">title</string>
+    <string name="reminder">reminder</string>
+    <string name="time">time</string>
+    <string name="save">save</string>
+    <string name="month_previous">previous month</string>
+    <string name="month_next">next month</string>
+    <string name="loading">Loading...</string>
+    <string name="error">Error!</string>
     <string-array name="motd_array">
         <item>Счастье — не пункт назначения, а способ жизни.</item>
         <item>Хорошая новость: есть момент здесь и сейчас.</item>

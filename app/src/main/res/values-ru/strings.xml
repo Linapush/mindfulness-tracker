@@ -14,7 +14,12 @@
     <string name="st">сб</string>
     <string name="sn">вс</string>
     <string name="today">Сегодня</string>
+    <string name="title">Название</string>
     <string name="reminder">Напоминание</string>
+    <string name="time">Время</string>
+    <string name="save">Сохранить</string>
+    <string name="month_previous">Предыдущий месяц</string>
+    <string name="month_next">Следующий месяц</string>
     <string-array name="motd_array">
         <item>Счастье — не пункт назначения, а способ жизни.</item>
         <item>Хорошая новость: есть момент здесь и сейчас.</item>
@@ -33,4 +38,6 @@
         <item>Лучший способ предсказать будущее — создать его самому.</item>
         <item>Успех приходит к тем, кто не боится рисковать.</item>
     </string-array>
+    <string name="loading">Загрузка...</string>
+    <string name="error">Ошибка!</string>
 </resources>
