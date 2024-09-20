@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,25 +25,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mindfulnesstracker.Habit
 import com.example.mindfulnesstracker.R
 import com.example.mindfulnesstracker.ui.components.HabitScaffold
-import kotlin.random.Random
-
-private val habits =
-    listOf(
-        "Привычка 1",
-        "Привычка 2",
-        "Привычка 3",
-        "Привычка 4",
-        "Привычка 5",
-        "Привычка 6",
-        "Привычка 7",
-        "Привычка 8",
-    )
+import com.example.mindfulnesstracker.ui.theme.ProgressDone
+import com.example.mindfulnesstracker.ui.theme.ProgressFail
+import com.example.mindfulnesstracker.ui.theme.ProgressFalse
+import com.example.mindfulnesstracker.ui.viewmodels.HabitsUiState
+import com.example.mindfulnesstracker.ui.viewmodels.HabitsViewModel
 
 @Composable
 fun ListScreen(
-    onItemClick: (id: Int) -> Unit,
+    userId: String,
+    onHabitLabelClick: (habitId: String) -> Unit,
     onAddClick: () -> Unit,
 ) {
     HabitScaffold(
@@ -57,59 +53,96 @@ fun ListScreen(
             }
         },
     ) { paddingValues ->
-        LazyColumn(
-            contentPadding = paddingValues,
-        ) {
-            // количество элементов и вызов кнопки
-            items(habits.size) { index ->
-                HabitItem(index, onItemClick)
-            }
+        val habitsViewModel: HabitsViewModel = viewModel()
+        HabitsPlaceHolder(userId = userId, habitsViewModel.habitsUiState, paddingValues, onHabitLabelClick)
+    }
+}
+
+@Composable
+fun HabitsPlaceHolder(
+    userId: String,
+    habitsUiState: HabitsUiState,
+    paddingValues: PaddingValues,
+    onHabitLabelClick: (habitId: String) -> Unit,
+) {
+    when (habitsUiState) {
+        is HabitsUiState.Loading -> Text(stringResource(R.string.loading))
+        is HabitsUiState.Success ->
+            HabitList(
+                userId = userId,
+                habits = habitsUiState.habits,
+                paddingValues = paddingValues,
+                onHabitLabelClick = onHabitLabelClick,
+            )
+        is HabitsUiState.Error -> Text(stringResource(R.string.error))
+    }
+}
+
+@Composable
+private fun HabitList(
+    userId: String,
+    habits: List<Habit>,
+    paddingValues: PaddingValues,
+    onHabitLabelClick: (habitId: String) -> Unit,
+    onCurrentDayClick: (habitId: String) -> Unit = {},
+) {
+    LazyColumn(
+        contentPadding = paddingValues,
+    ) {
+        items(habits.size) { index ->
+            val habit = habits[index]
+            HabitItem(
+                habit = habit,
+                onHabitLabelClick = {
+                    onHabitLabelClick(habit.habitId)
+                },
+                onCurrentDayClick = { onCurrentDayClick(habit.habitId) },
+            )
         }
     }
 }
 
 @Composable
 fun HabitItem(
-    habit: Int,
-    onItemClick: (id: Int) -> Unit,
+    habit: Habit,
+    onHabitLabelClick: (habitId: String) -> Unit,
+    onCurrentDayClick: (habitId: String) -> Unit,
 ) {
-    val statuses =
-        remember {
-            listOf(
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-                Random.nextBoolean(),
-            )
-        }
-
     Column(
-        // clicable добавляет возможность нажатия на элемент списка привычек
         modifier =
             Modifier
-                .clickable {
-                    onItemClick(habit)
-                }
                 .padding(8.dp),
     ) {
         Text(
-            text = habits[habit],
+            modifier =
+                Modifier
+                    .clickable {
+                        onHabitLabelClick(habit.habitId)
+                    },
+            text = habit.name,
             fontWeight = FontWeight.Bold,
         )
-        Row {
-            // для каждого статуса в списке
-            statuses.forEachIndexed { index, status ->
+        Row(
+            modifier =
+                Modifier
+                    .height(60.dp),
+        ) {
+            habit.progress.forEachIndexed { index, progressItem ->
                 val color =
-                    if (status) {
-                        Color.Green
+                    if (progressItem.indicator) {
+                        ProgressDone
                     } else {
-                        if (index == 6) Color.Gray else Color.Red
+                        if (index == 6) ProgressFalse else ProgressFail
                     }
                 Column(
-                    modifier = Modifier.weight(1f),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .clickable {
+                                if (index == 6) {
+                                    onCurrentDayClick(habit.habitId)
+                                }
+                            },
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
