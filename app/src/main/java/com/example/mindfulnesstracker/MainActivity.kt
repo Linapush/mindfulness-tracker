@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import com.example.mindfulnesstracker.ui.HabitNavigation
 import com.example.mindfulnesstracker.ui.theme.MindfulnessTrackerTheme
 
+const val USER_ID = "tyPH6CtFeQAt5dh1G0PX"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
