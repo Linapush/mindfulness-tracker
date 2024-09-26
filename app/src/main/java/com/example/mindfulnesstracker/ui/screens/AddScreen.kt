@@ -28,14 +28,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mindfulnesstracker.R
 import com.example.mindfulnesstracker.ui.components.HabitScaffold
 import com.example.mindfulnesstracker.ui.theme.ButtonBlue
+import com.example.mindfulnesstracker.ui.viewmodels.AddScreenViewModel
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreen(onAdded: () -> Unit) {
+    val viewModel: AddScreenViewModel = viewModel()
+
     HabitScaffold(
         screenTitle = stringResource(R.string.screen_title_add),
     ) { paddingValues ->
@@ -116,7 +120,15 @@ fun AddScreen(onAdded: () -> Unit) {
             Spacer(Modifier.weight(1f))
 
             Button(
-                onClick = { },
+                onClick = {
+                    viewModel.save(
+                        title = title.value,
+                        hour = hour.value,
+                        minute = minute.value,
+                    )
+
+                    onAdded()
+                },
                 modifier = Modifier.size(192.dp, 52.dp),
                 shape = MaterialTheme.shapes.large,
                 colors =

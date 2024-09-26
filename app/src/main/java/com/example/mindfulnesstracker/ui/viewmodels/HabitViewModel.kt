@@ -8,8 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.mindfulnesstracker.Habit
 import com.example.mindfulnesstracker.USER_ID
 import com.example.mindfulnesstracker.getHabitsForUser
+import com.example.mindfulnesstracker.updateHabitStatus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 /**
  * UI state for the Home screen
@@ -17,9 +18,9 @@ import java.io.IOException
 sealed interface HabitsUiState {
     data class Success(val habits: List<Habit>) : HabitsUiState
 
-    object Error : HabitsUiState
+    data object Error : HabitsUiState
 
-    object Loading : HabitsUiState
+    data object Loading : HabitsUiState
 }
 
 class HabitsViewModel : ViewModel() {
@@ -27,23 +28,63 @@ class HabitsViewModel : ViewModel() {
         private set
 
     init {
-        getHabits(USER_ID)
+        viewModelScope.launch {
+            getHabits()
+
+            while (true) {
+                delay(1000)
+
+                updateHabits()
+            }
+        }
     }
 
-    fun getHabits(userId: String) {
+    fun getHabits() {
         viewModelScope.launch {
             habitsUiState = HabitsUiState.Loading
             habitsUiState =
                 try {
-                    val listResult = getHabitsForUser(userId)
+                    val listResult = getHabitsForUser(USER_ID)
+
                     HabitsUiState.Success(
                         listResult,
                     )
-                } catch (e: IOException) {
-                    HabitsUiState.Error
-                } catch (e: RuntimeException) {
+                } catch (ex: Exception) {
+                    println(ex.message)
                     HabitsUiState.Error
                 }
         }
+    }
+
+    private fun updateHabits() {
+        viewModelScope.launch {
+            habitsUiState =
+                try {
+                    val listResult = getHabitsForUser(USER_ID)
+
+                    HabitsUiState.Success(
+                        listResult,
+                    )
+                } catch (e: Exception) {
+                    HabitsUiState.Error
+                }
+        }
+    }
+
+    fun updateDayStatus(
+        userId: String,
+        habitId: String,
+        currentStatus: Boolean,
+        dayEpoch: Long,
+    ) {
+        updateHabitStatus(
+            userId = userId,
+            habitId = habitId,
+            dayEpoch = dayEpoch,
+            status = !currentStatus,
+            onSuccess = {
+                updateHabits()
+            },
+        )
     }
 }

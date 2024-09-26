@@ -1,6 +1,7 @@
 package com.example.mindfulnesstracker.ui.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +19,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,10 +36,19 @@ import com.example.mindfulnesstracker.ui.theme.ProgressDone
 import com.example.mindfulnesstracker.ui.theme.ProgressFail
 import com.example.mindfulnesstracker.ui.theme.ProgressFalse
 import com.example.mindfulnesstracker.ui.viewmodels.ProgressViewModel
+import java.time.LocalDate
+
+enum class ProgressState {
+    Done,
+    Fail,
+    False,
+}
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun ProgressScreen(habitId: Int) {
+fun ProgressScreen(habitId: String) {
+    val context = LocalContext.current
+
     HabitScaffold(
         screenTitle = stringResource(R.string.screen_title_progress),
     ) { paddingValues ->
@@ -46,6 +58,10 @@ fun ProgressScreen(habitId: Int) {
                 .padding(horizontal = 16.dp),
         ) {
             val viewModel = viewModel(modelClass = ProgressViewModel::class)
+
+            LaunchedEffect(Unit) {
+                viewModel.initialize(habitId)
+            }
 
             Text(
                 text = "TODO",
@@ -57,7 +73,7 @@ fun ProgressScreen(habitId: Int) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                IconButton(onClick = { viewModel.previousMonth() }) {
+                IconButton(onClick = { viewModel.previousMonth(habitId) }) {
                     Icon(Icons.Default.ArrowBack, stringResource(R.string.month_previous))
                 }
 
@@ -66,12 +82,12 @@ fun ProgressScreen(habitId: Int) {
                     modifier =
                         Modifier
                             .clickable {
-                                viewModel.currentMonth()
+                                viewModel.currentMonth(habitId)
                             }
                             .padding(8.dp),
                 )
 
-                IconButton(onClick = { viewModel.nextMonth() }) {
+                IconButton(onClick = { viewModel.nextMonth(habitId) }) {
                     Icon(Icons.Default.ArrowForward, stringResource(R.string.month_next))
                 }
             }
@@ -79,36 +95,83 @@ fun ProgressScreen(habitId: Int) {
             DaysOfWeek()
 
             val days = viewModel.days.toList()
+            val habitCreationDay = viewModel.habitCreationEpochDay
             for (w in days.indices step 7) {
                 Row {
                     for (d in 0..6) {
-                        Box(
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center,
-                        ) {
+                        if (w + d < days.size) {
                             val day = days[w + d]
+                            val progressState =
+                                day.status?.let {
+                                    if (it) ProgressState.Done else ProgressState.Fail
+                                } ?: ProgressState.False
                             val color =
-                                day.second?.let {
-                                    if (it) ProgressDone else ProgressFail
-                                } ?: ProgressFalse
+                                calculateProgressColor(
+                                    epochDay = day.dayEpoch,
+                                    progressBool = day.status,
+                                    habitCreationEpochDay = viewModel.habitCreationEpochDay.value,
+                                )
 
                             Box(
                                 modifier =
                                     Modifier
+                                        .weight(1f)
+                                        .clickable {
+                                            Toast(context)
+                                                .apply {
+                                                    setText(days[w + d].dayNumber.toString())
+                                                    duration = Toast.LENGTH_SHORT
+                                                }
+                                                .show()
+
+                                            viewModel.updateProgress(habitId, day.dayEpoch, progressState)
+                                        },
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .aspectRatio(1f)
+                                            .padding(8.dp)
+                                            .clip(CircleShape)
+                                            .background(color),
+                                )
+                                Text(
+                                    text = day.dayNumber.toString(),
+                                    fontSize = 12.sp,
+                                    color = Color.White,
+                                )
+                            }
+                        } else {
+                            Box(
+                                modifier =
+                                    Modifier
+                                        .weight(1f)
                                         .aspectRatio(1f)
-                                        .padding(8.dp)
-                                        .clip(CircleShape)
-                                        .background(color),
-                            )
-                            Text(
-                                text = day.first.toString(),
-                                fontSize = 12.sp,
-                                color = Color.White,
-                            )
+                                        .padding(8.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {}
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun calculateProgressColor(
+    habitCreationEpochDay: Long,
+    progressBool: Boolean?,
+    epochDay: Long,
+): Color {
+    if (progressBool != null) {
+        return if (progressBool) ProgressDone else ProgressFail
+    } else {
+        if (habitCreationEpochDay <= epochDay && epochDay < LocalDate.now().toEpochDay()) {
+            return ProgressFail
+        } else {
+            return ProgressFalse
         }
     }
 }

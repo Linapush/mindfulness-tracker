@@ -38,24 +38,37 @@ fun HabitNavigation() {
         composable(LIST_SCREEN) {
             ListScreen(
                 userId = USER_ID,
-                onHabitLabelClick = { habitId -> navigator.navigate("$PROGRESS_SCREEN/${URLEncoder.encode(habitId, "UTF-8")}") },
-                onAddClick = { navigator.navigate(ADD_SCREEN) },
+                onHabitLabelClick = { habitId ->
+                    navigator.navigate(
+                        "$PROGRESS_SCREEN/${
+                            URLEncoder.encode(
+                                habitId,
+                                "UTF-8",
+                            )
+                        }",
+                    )
+                },
+                onAddClick = {
+                    navigator.navigate(ADD_SCREEN)
+                },
             )
         }
         composable(
             "$PROGRESS_SCREEN/{$ARG_HABIT_ID}",
             listOf(navArgument(ARG_HABIT_ID) { type = NavType.StringType }),
         ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt(ARG_HABIT_ID)
+            val id = backStackEntry.arguments?.getString(ARG_HABIT_ID)
 
             id?.let {
                 ProgressScreen(id)
             } ?: Text("Error: Unable to get ID")
         }
         composable(ADD_SCREEN) {
-            AddScreen {
-                navigator.popBackStack()
-            }
+            AddScreen(
+                onAdded = {
+                    navigator.popBackStack()
+                },
+            )
         }
     }
 }
